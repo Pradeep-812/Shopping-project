@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R S SHOPPING CENTRE - Crafts, Cane Baskets, Laces & DIY Supplies</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+    theme: { extend: {
+        fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+        colors: { brandRed: '#DC2626', brandGold: '#D97706', brandTeal: '#0D9488', craftBg: '#FAF9F6' }
+    }}
+}
+</script>
+<style>
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade { animation: fadeIn 0.25s ease-out forwards; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.product-img-wrap { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); position: relative; }
+.product-img-wrap .fallback-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #b45309; z-index: 0; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+<!-- ==================== AUTH MODAL ==================== -->
+<div id="authModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative animate-slide-up">
+<button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+<div class="text-center mb-5">
+<div class="inline-flex items-center space-x-2 mb-2">
+<div class="bg-red-600 text-white font-black text-2xl px-3 py-1 rounded-xl shadow">R.S</div>
+<div class="text-left">
+<span class="text-base font-extrabold text-slate-900 block leading-tight">SHOPPING CENTRE</span>
+<span class="text-[9px] font-bold text-amber-600 tracking-widest uppercase block">Cane • Crafts • Laces</span>
+</div>
+</div>
+<h2 id="authTitle" class="text-lg font-extrabold text-slate-900 mt-2">Welcome Back!</h2>
+<p id="authSubtitle" class="text-xs text-slate-500">Login to access our full catalog & place orders</p>
+</div>
+<form id="loginForm" onsubmit="handleLogin(event)" class="space-y-3">
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
+<div class="relative">
+<i class="fa-solid fa-envelope absolute left-3 top-3 text-slate-400 text-xs"></i>
+<input type="email" id="loginEmail" required placeholder="you@example.com" class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+<div class="relative">
+<i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-xs"></i>
+<input type="password" id="loginPassword" required placeholder="••••••••" class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+</div>
+</div>
+<button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm flex items-center justify-center space-x-2">
+<i class="fa-solid fa-right-to-bracket"></i><span>Login to Shop</span>
+</button>
+<div class="text-center text-[11px] text-slate-500">
+<i class="fa-solid fa-circle-info mr-1"></i>Demo: <button type="button" onclick="fillDemo()" class="text-amber-600 font-bold hover:underline">use demo account</button>
+</div>
+</form>
+<form id="signupForm" onsubmit="handleSignup(event)" class="space-y-3 hidden">
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Full Name</label>
+<div class="relative">
+<i class="fa-solid fa-user absolute left-3 top-3 text-slate-400 text-xs"></i>
+<input type="text" id="signupName" required placeholder="e.g. Radhika Sharma" class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Email Address</label>
+<div class="relative">
+<i class="fa-solid fa-envelope absolute left-3 top-3 text-slate-400 text-xs"></i>
+<input type="email" id="signupEmail" required placeholder="you@example.com" class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+</div>
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-700 mb-1">Password <span class="text-slate-400 font-normal">(min 6 chars)</span></label>
+<div class="relative">
+<i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-xs"></i>
+<input type="password" id="signupPassword" required minlength="6" placeholder="••••••••" class="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50 focus:bg-white transition">
+</div>
+</div>
+<button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm flex items-center justify-center space-x-2">
+<i class="fa-solid fa-user-plus"></i><span>Create Account</span>
+</button>
+</form>
+<div class="text-center mt-5 text-xs text-slate-500">
+<span id="toggleText">Don't have an account?</span>
+<button onclick="toggleAuthMode()" id="toggleBtn" class="text-amber-600 font-bold hover:underline ml-1">Sign Up</button>
+</div>
+</div>
+</div>
+
+<!-- ==================== OVERVIEW PAGE ==================== -->
+<div id="overviewPage" class="min-h-screen flex flex-col">
+<div class="bg-gradient-to-r from-red-600 via-amber-600 to-red-600 text-white text-xs font-semibold py-2 px-4 text-center shadow-inner">
+<span><i class="fa-solid fa-store mr-1.5"></i>Welcome to R S SHOPPING CENTRE — Chennai's Premier Craft & DIY Destination</span>
+</div>
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+<div class="flex items-center space-x-3 group">
+<div class="bg-red-600 text-white font-black text-2xl px-3 py-1 rounded-xl shadow">R.S</div>
+<div>
+<span class="text-xl font-extrabold text-slate-900 tracking-tight block leading-tight">SHOPPING CENTRE</span>
+<span class="text-[10px] font-bold text-amber-600 tracking-widest uppercase block -mt-0.5">Cane • Crafts • Laces • Stationery</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-600">
+<a href="#overview-features" class="hover:text-amber-600 transition">Why Us</a>
+<a href="#overview-categories" class="hover:text-amber-600 transition">Categories</a>
+<a href="#overview-reviews" class="hover:text-amber-600 transition">Reviews</a>
+</nav>
+<button onclick="openAuthModal('login')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl shadow transition flex items-center space-x-2">
+<i class="fa-solid fa-right-to-bracket"></i><span>Login / Sign Up</span>
+</button>
+</div>
+</header>
+
+<section class="bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950 text-white py-16 px-4 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10">
+<div class="absolute top-10 left-10 text-9xl">🧺</div>
+<div class="absolute bottom-10 right-10 text-9xl">🧵</div>
+<div class="absolute top-1/2 left-1/2 text-9xl">⭐</div>
+</div>
+<div class="max-w-7xl mx-auto relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div>
+<span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">
+<i class="fa-solid fa-award mr-1"></i> Trusted Since 2005
+</span>
+<h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-4">Crafts, Cane Baskets, Laces & <span class="text-amber-400">DIY Supplies</span></h1>
+<p class="text-slate-300 text-sm md:text-base leading-relaxed mb-6">Discover handwoven cane hampers, designer zari laces, Manan neck templates, and festive party decorations — all under one roof. Visitors consistently praise our extensive selection and reliable service.</p>
+<div class="flex flex-wrap gap-3">
+<button onclick="openAuthModal('login')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition flex items-center space-x-2">
+<i class="fa-solid fa-lock-open"></i><span>Login to Browse Catalog</span>
+</button>
+<button onclick="openAuthModal('signup')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-sm px-6 py-3 rounded-xl border border-slate-700 transition">Create New Account</button>
+</div>
+<p class="text-[11px] text-slate-400 mt-3"><i class="fa-solid fa-shield-halved mr-1"></i> Products visible only to logged-in members</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center"><div class="text-3xl mb-2">🧺</div><div class="text-2xl font-extrabold text-amber-400">500+</div><div class="text-[11px] text-slate-300 uppercase font-bold tracking-wide">Cane Products</div></div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center"><div class="text-3xl mb-2">🧵</div><div class="text-2xl font-extrabold text-amber-400">1000+</div><div class="text-[11px] text-slate-300 uppercase font-bold tracking-wide">Laces & Trims</div></div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center"><div class="text-3xl mb-2">📐</div><div class="text-2xl font-extrabold text-amber-400">200+</div><div class="text-[11px] text-slate-300 uppercase font-bold tracking-wide">Tailoring Tools</div></div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center"><div class="text-3xl mb-2">⭐</div><div class="text-2xl font-extrabold text-amber-400">4.9</div><div class="text-[11px] text-slate-300 uppercase font-bold tracking-wide">Customer Rating</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="overview-features" class="py-14 px-4 bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-2xl mx-auto mb-10">
+<span class="text-amber-600 font-bold text-xs uppercase tracking-wider">Why Choose Us</span>
+<h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">A Complete Craft Store Experience</h2>
+<p class="text-sm text-slate-500 mt-2">Everything you need for crafting, tailoring, gifting, and decoration — curated under one roof.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+<div class="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-100 text-center hover:shadow-md transition">
+<div class="w-14 h-14 bg-amber-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow"><i class="fa-solid fa-boxes-stacked"></i></div>
+<h3 class="font-bold text-slate-900 text-sm mb-1">Extensive Selection</h3>
+<p class="text-xs text-slate-600 leading-relaxed">Over 2000+ products across cane, craft, tailoring, and party categories.</p>
+</div>
+<div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-2xl border border-emerald-100 text-center hover:shadow-md transition">
+<div class="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow"><i class="fa-solid fa-handshake"></i></div>
+<h3 class="font-bold text-slate-900 text-sm mb-1">Good Service</h3>
+<p class="text-xs text-slate-600 leading-relaxed">Friendly, knowledgeable staff ready to help you find exactly what you need.</p>
+</div>
+<div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100 text-center hover:shadow-md transition">
+<div class="w-14 h-14 bg-blue-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow"><i class="fa-solid fa-gem"></i></div>
+<h3 class="font-bold text-slate-900 text-sm mb-1">Premium Quality</h3>
+<p class="text-xs text-slate-600 leading-relaxed">Handpicked materials from trusted suppliers — built to last.</p>
+</div>
+<div class="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-100 text-center hover:shadow-md transition">
+<div class="w-14 h-14 bg-rose-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl shadow"><i class="fa-solid fa-truck-fast"></i></div>
+<h3 class="font-bold text-slate-900 text-sm mb-1">Fast Delivery</h3>
+<p class="text-xs text-slate-600 leading-relaxed">Quick dispatch across India with reliable in-store pickup available.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Category cards - images matched to category content -->
+<section id="overview-categories" class="py-14 px-4 bg-slate-50">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-2xl mx-auto mb-10">
+<span class="text-amber-600 font-bold text-xs uppercase tracking-wider">What We Offer</span>
+<h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Explore Our Product Categories</h2>
+<p class="text-sm text-slate-500 mt-2">Login to view full catalog with prices, add to cart, and place orders.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<div class="relative rounded-2xl overflow-hidden h-56 group cursor-pointer shadow-md bg-amber-100">
+<img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Cane & Bamboo" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.style.display='none'">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+<div class="text-3xl mb-1">🧺</div>
+<h3 class="font-bold text-base">Cane & Bamboo</h3>
+<p class="text-[11px] text-slate-300">Hampers, lamps, baskets & more</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden h-56 group cursor-pointer shadow-md bg-red-100">
+<img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" alt="Laces & Trims" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.style.display='none'">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+<div class="text-3xl mb-1">🧵</div>
+<h3 class="font-bold text-base">Laces & Trims</h3>
+<p class="text-[11px] text-slate-300">Zari, gota patti, pearl borders</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden h-56 group cursor-pointer shadow-md bg-blue-100">
+<img src="https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=800&q=80" alt="Tailoring Tools" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.style.display='none'">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+<div class="text-3xl mb-1">📐</div>
+<h3 class="font-bold text-base">Tailoring Tools</h3>
+<p class="text-[11px] text-slate-300">Manan scales, stencils, feathers</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden h-56 group cursor-pointer shadow-md bg-purple-100">
+<img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80" alt="Party & Crafts" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.style.display='none'">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+<div class="text-3xl mb-1">⭐</div>
+<h3 class="font-bold text-base">Party & Crafts</h3>
+<p class="text-[11px] text-slate-300">Glitter stars, sequins, banners</p>
+</div>
+</div>
+</div>
+<div class="text-center mt-8">
+<button onclick="openAuthModal('login')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm px-6 py-3 rounded-xl shadow transition inline-flex items-center space-x-2">
+<i class="fa-solid fa-lock-open"></i><span>Login to View Full Catalog</span>
+</button>
+</div>
+</div>
+</section>
+
+<section id="overview-reviews" class="py-14 px-4 bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="text-center max-w-xl mx-auto mb-10">
+<span class="text-amber-600 font-bold text-xs uppercase tracking-wider">Customer Experience</span>
+<h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">What Our Visitors Say</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
+<div class="flex text-amber-400 text-xs mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+<p class="text-sm text-slate-700 italic mb-4 leading-relaxed">"Amazing variety for crafting and tailoring! Found exact Manan neck scale templates and zari borders that were out of stock elsewhere."</p>
+<div class="flex items-center space-x-2"><div class="w-9 h-9 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 font-bold text-xs">SM</div><div><div class="font-bold text-slate-900 text-xs">S. Meenakshi</div><div class="text-[10px] text-slate-500">Chennai</div></div></div>
+</div>
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
+<div class="flex text-amber-400 text-xs mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+<p class="text-sm text-slate-700 italic mb-4 leading-relaxed">"Very helpful store service. The woven cane hampers are sturdy and perfect for wedding return gift packing."</p>
+<div class="flex items-center space-x-2"><div class="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold text-xs">RK</div><div><div class="font-bold text-slate-900 text-xs">Rajesh Kumar</div><div class="text-[10px] text-slate-500">Coimbatore</div></div></div>
+</div>
+<div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm">
+<div class="flex text-amber-400 text-xs mb-3"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+<p class="text-sm text-slate-700 italic mb-4 leading-relaxed">"Great online catalog ordering experience. Prompt responses and quick dispatch. Will definitely order again."</p>
+<div class="flex items-center space-x-2"><div class="w-9 h-9 bg-rose-100 rounded-full flex items-center justify-center text-rose-700 font-bold text-xs">AR</div><div><div class="font-bold text-slate-900 text-xs">Anita R.</div><div class="text-[10px] text-slate-500">Bangalore</div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-14 px-4 bg-gradient-to-r from-red-600 to-amber-600 text-white">
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="text-2xl md:text-3xl font-extrabold mb-3">Ready to Explore Our Full Catalog?</h2>
+<p class="text-white/90 text-sm mb-6 max-w-xl mx-auto">Create a free account to view all products with prices, add items to your cart, and place orders online.</p>
+<div class="flex flex-wrap justify-center gap-3">
+<button onclick="openAuthModal('signup')" class="bg-white text-red-600 font-bold text-sm px-6 py-3 rounded-xl shadow-lg hover:bg-slate-100 transition flex items-center space-x-2"><i class="fa-solid fa-user-plus"></i><span>Create Free Account</span></button>
+<button onclick="openAuthModal('login')" class="bg-slate-900/30 backdrop-blur border border-white/30 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-slate-900/50 transition flex items-center space-x-2"><i class="fa-solid fa-right-to-bracket"></i><span>Already a Member? Login</span></button>
+</div>
+</div>
+</section>
+
+<footer class="bg-slate-950 text-slate-300 pt-8 pb-6 border-t border-slate-800 mt-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div><h4 class="font-bold text-white text-sm mb-2">R S SHOPPING CENTRE</h4><p class="text-slate-400 leading-relaxed">Your one-stop craft superstore for cane goods, zari laces, tailoring tools, and party accessories.</p></div>
+<div><h4 class="font-bold text-white text-sm mb-2">Store Working Hours</h4><p class="text-slate-400">Monday - Saturday: 9:30 AM - 9:30 PM</p><p class="text-slate-400">Sunday: 10:00 AM - 8:00 PM</p></div>
+<div><h4 class="font-bold text-white text-sm mb-2">Contact & Location</h4><p class="text-slate-400">Main Market Road, Chennai, Tamil Nadu</p><p class="text-slate-400">Phone: +91 98400 12345</p></div>
+</div>
+<div class="border-t border-slate-800 pt-4 text-center text-slate-500">© 2026 R S SHOPPING CENTRE. All Rights Reserved.</div>
+</div>
+</footer>
+</div>
+
+<!-- ==================== SHOP PAGE ==================== -->
+<div id="shopPage" class="hidden min-h-screen flex flex-col">
+<div class="bg-gradient-to-r from-red-600 via-amber-600 to-red-600 text-white text-xs font-semibold py-2 px-4 text-center shadow-inner flex justify-between items-center">
+<span class="hidden sm:inline"><i class="fa-solid fa-store mr-1.5"></i> Welcome to R S SHOPPING CENTRE — Chennai's Premier Craft & DIY Destination</span>
+<span class="mx-auto sm:mx-0"><i class="fa-solid fa-truck-fast mr-1"></i> Fast Delivery across India | In-Store Pick Up Available</span>
+<span class="hidden md:inline"><i class="fa-solid fa-phone mr-1"></i> +91 98400 12345</span>
+</div>
+
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+<div class="flex items-center justify-between gap-4">
+<a href="#" onclick="resetAllFilters()" class="flex items-center space-x-3 shrink-0 group">
+<div class="bg-red-600 text-white font-black text-2xl px-3 py-1 rounded-xl shadow group-hover:bg-red-700 transition">R.S</div>
+<div>
+<span class="text-xl font-extrabold text-slate-900 tracking-tight block leading-tight">SHOPPING CENTRE</span>
+<span class="text-[10px] font-bold text-amber-600 tracking-widest uppercase block -mt-0.5">Cane • Crafts • Laces • Stationery</span>
+</div>
+</a>
+<div class="hidden md:flex flex-1 max-w-md relative mx-4">
+<input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search cane baskets, zari laces, Manan scale..." class="w-full pl-10 pr-10 py-2 text-sm bg-slate-100 border border-slate-200 rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
+<i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-400"></i>
+<button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3.5 top-2.5 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="flex items-center space-x-2">
+<div class="relative">
+<button onclick="toggleUserMenu()" class="flex items-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl px-2.5 py-2 transition">
+<div id="userAvatar" class="w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center text-[11px] font-bold">U</div>
+<span id="userNameDisplay" class="hidden sm:inline text-xs font-bold max-w-[80px] truncate">User</span>
+<i class="fa-solid fa-chevron-down text-[10px] text-slate-400 hidden sm:inline"></i>
+</button>
+<div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 z-50">
+<div class="px-3 py-2 border-b border-slate-100">
+<div class="text-xs font-bold text-slate-800" id="userMenuName">User</div>
+<div class="text-[10px] text-slate-500 truncate" id="userMenuEmail">user@example.com</div>
+</div>
+<button onclick="logout()" class="w-full text-left px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center space-x-2"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button>
+</div>
+</div>
+<button onclick="toggleWishlistModal()" class="relative p-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition">
+<i class="fa-regular fa-heart text-lg"></i>
+<span id="wishlistBadge" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center">0</span>
+</button>
+<button onclick="toggleCartModal()" class="relative p-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl transition border border-amber-200">
+<i class="fa-solid fa-basket-shopping text-lg text-amber-600"></i>
+<span id="cartHeaderTotal" class="hidden sm:inline font-bold text-xs ml-1">₹0</span>
+<span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-amber-600 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center">0</span>
+</button>
+</div>
+</div>
+<div class="mt-3 md:hidden relative">
+<input type="text" id="mobileSearchInput" oninput="handleMobileSearch()" placeholder="Search 100+ store items..." class="w-full pl-9 pr-8 py-2 text-xs bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+<i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+</div>
+</div>
+<div class="bg-slate-900 text-slate-200 border-t border-slate-800 overflow-x-auto custom-scrollbar">
+<div class="max-w-7xl mx-auto px-4 flex space-x-2 text-xs font-medium py-2 whitespace-nowrap">
+<button onclick="filterCategory('All')" class="cat-nav-btn px-3 py-1.5 rounded-lg bg-amber-600 text-white font-bold" data-cat="All"><i class="fa-solid fa-border-all mr-1.5"></i>All Products</button>
+<button onclick="filterCategory('Cane & Bamboo')" class="cat-nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300" data-cat="Cane & Bamboo">🧺 Cane & Bamboo</button>
+<button onclick="filterCategory('Laces & Trims')" class="cat-nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300" data-cat="Laces & Trims">🧵 Laces & Trims</button>
+<button onclick="filterCategory('Tailoring Tools')" class="cat-nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300" data-cat="Tailoring Tools">📐 Tailoring Tools</button>
+<button onclick="filterCategory('Party & Crafts')" class="cat-nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300" data-cat="Party & Crafts">⭐ Party & Crafts</button>
+</div>
+</div>
+</header>
+
+<section class="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 text-white py-8 px-4">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="text-center md:text-left">
+<span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-2"><i class="fa-solid fa-award mr-1"></i> Authentic Store Collection</span>
+<h1 class="text-xl md:text-3xl font-extrabold leading-tight mb-1">Crafts, Bambooware, Tailoring & DIY Accessories</h1>
+<p class="text-slate-300 text-xs md:text-sm">Handwoven cane hampers, designer zari laces, Manan templates & festive decorations.</p>
+</div>
+<div class="bg-slate-800/80 border border-slate-700 p-3 rounded-2xl text-center shadow-lg">
+<div class="flex justify-center space-x-2 text-amber-400 text-base mb-1"><i class="fa-solid fa-basket-shopping"></i><i class="fa-solid fa-scissors"></i><i class="fa-solid fa-sparkles"></i></div>
+<p class="text-[11px] text-slate-400 max-w-[180px]">Extensive variety & reliable service trusted by local designers.</p>
+</div>
+</div>
+</section>
+
+<main id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+<div>
+<h2 class="text-lg font-bold text-slate-900 flex items-center">
+<span>Store Catalog</span>
+<span id="productCountBadge" class="ml-2.5 text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full">Showing items</span>
+</h2>
+<p class="text-xs text-slate-500 mt-0.5">Filter by category or price range</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<div class="flex items-center space-x-1.5 text-xs">
+<span class="text-slate-500 font-semibold uppercase">Sort:</span>
+<select id="sortBy" onchange="applySortAndFilter()" class="bg-slate-50 border border-slate-200 text-slate-800 font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-amber-500">
+<option value="featured">Featured</option>
+<option value="price-low">Price: Low to High</option>
+<option value="price-high">Price: High to Low</option>
+<option value="rating">Top Rated</option>
+</select>
+</div>
+<div class="flex items-center space-x-2 text-xs">
+<span class="text-slate-500 font-semibold uppercase">Max Price: <strong id="priceLabel" class="text-slate-900">₹1000</strong></span>
+<input type="range" id="priceRange" min="50" max="1000" step="50" value="1000" oninput="updatePriceFilter(this.value)" class="accent-amber-600 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer w-20 sm:w-28">
+</div>
+</div>
+</div>
+
+<div class="flex items-center space-x-2 overflow-x-auto pb-3 mb-6 custom-scrollbar text-xs font-medium">
+<span class="text-slate-400 uppercase font-bold text-[10px] shrink-0">Filter:</span>
+<button onclick="filterCategory('All')" class="quick-chip bg-amber-600 text-white px-3 py-1 rounded-full shrink-0 shadow-sm">All Items</button>
+<button onclick="filterCategory('Cane & Bamboo')" class="quick-chip bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-full shrink-0">🧺 Cane & Bamboo</button>
+<button onclick="filterCategory('Laces & Trims')" class="quick-chip bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-full shrink-0">🧵 Laces & Trims</button>
+<button onclick="filterCategory('Tailoring Tools')" class="quick-chip bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-full shrink-0">📐 Tailoring Tools</button>
+<button onclick="filterCategory('Party & Crafts')" class="quick-chip bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1 rounded-full shrink-0">⭐ Party & Crafts</button>
+</div>
+
+<div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+<div id="emptyGridMsg" class="hidden text-center py-12 bg-white rounded-2xl border border-dashed border-slate-300 my-4">
+<i class="fa-solid fa-box-open text-4xl text-slate-300 mb-2"></i>
+<h3 class="text-sm font-bold text-slate-700">No products found</h3>
+<p class="text-xs text-slate-500 mb-3">Try adjusting search keyword or price range slider.</p>
+<button onclick="resetAllFilters()" class="bg-amber-600 text-white font-bold text-xs px-4 py-2 rounded-lg">Reset Filters</button>
+</div>
+</main>
+
+<section id="reviews" class="bg-slate-100 py-10 border-t border-slate-200">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-xl mx-auto mb-8">
+<span class="text-amber-600 font-bold text-xs uppercase tracking-wider">Customer Experience</span>
+<h2 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-1">Store Feedback & Highlights</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs">
+<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between"><p class="text-slate-700 italic mb-3">"Amazing variety for crafting and tailoring! Found exact Manan neck scale templates and zari borders that were out of stock elsewhere."</p><div class="font-bold text-slate-900">— S. Meenakshi, Chennai</div></div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between"><p class="text-slate-700 italic mb-3">"Very helpful store service. The woven cane hampers are sturdy and perfect for wedding return gift packing."</p><div class="font-bold text-slate-900">— Rajesh Kumar</div></div>
+<div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between"><p class="text-slate-700 italic mb-3">"Great online catalog ordering experience. Prompt responses and quick dispatch."</p><div class="font-bold text-slate-900">— Anita R.</div></div>
+</div>
+</div>
+</section>
+
+<footer class="bg-slate-950 text-slate-300 pt-8 pb-6 border-t border-slate-800 mt-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div><h4 class="font-bold text-white text-sm mb-2">R S SHOPPING CENTRE</h4><p class="text-slate-400 leading-relaxed">Your one-stop craft superstore for cane goods, zari laces, tailoring tools, and party accessories.</p></div>
+<div><h4 class="font-bold text-white text-sm mb-2">Store Working Hours</h4><p class="text-slate-400">Monday - Saturday: 9:30 AM - 9:30 PM</p><p class="text-slate-400">Sunday: 10:00 AM - 8:00 PM</p></div>
+<div><h4 class="font-bold text-white text-sm mb-2">Contact & Location</h4><p class="text-slate-400">Main Market Road, Chennai, Tamil Nadu</p><p class="text-slate-400">Phone: +91 98400 12345</p></div>
+</div>
+<div class="border-t border-slate-800 pt-4 text-center text-slate-500">© 2026 R S SHOPPING CENTRE. All Rights Reserved.</div>
+</div>
+</footer>
+</div>
+
+<!-- CART MODAL -->
+<div id="cartModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden transition-opacity">
+<div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+<div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+<div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+<div class="flex items-center space-x-2"><i class="fa-solid fa-basket-shopping text-amber-400"></i><h3 class="font-bold text-sm">Shopping Basket</h3></div>
+<button onclick="toggleCartModal()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+</div>
+<div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar"></div>
+<div id="cartFooter" class="border-t border-slate-200 p-4 bg-slate-50">
+<div class="space-y-1.5 mb-3 text-xs">
+<div class="flex justify-between text-slate-600"><span>Subtotal</span><span id="cartSubtotal" class="font-semibold text-slate-800">₹0</span></div>
+<div class="flex justify-between text-slate-600"><span>Shipping</span><span class="font-semibold text-emerald-600">Calculated at Checkout</span></div>
+<div class="flex justify-between text-sm font-extrabold text-slate-900 pt-2 border-t border-slate-200"><span>Total</span><span id="cartTotal" class="text-amber-600">₹0</span></div>
+</div>
+<button id="checkoutBtn" onclick="openCheckoutForm()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow transition text-xs flex items-center justify-center space-x-2">
+<span>Proceed to Checkout</span><i class="fa-solid fa-arrow-right"></i>
+</button>
+</div>
+<div id="checkoutFormSection" class="hidden flex-1 overflow-y-auto p-4 space-y-3 bg-white custom-scrollbar text-xs">
+<div class="flex items-center justify-between border-b pb-2">
+<h4 class="font-bold text-slate-800"><i class="fa-solid fa-truck-ramp-box text-amber-600 mr-1.5"></i> Shipping Details</h4>
+<button onclick="closeCheckoutForm()" class="text-amber-600 hover:underline">Back to Cart</button>
+</div>
+<form id="orderForm" onsubmit="processOrder(event)" class="space-y-3">
+<div><label class="block font-semibold text-slate-700 mb-1">Full Name *</label><input type="text" id="custName" required placeholder="e.g. Radhika Sharma" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"></div>
+<div><label class="block font-semibold text-slate-700 mb-1">Phone Number *</label><input type="tel" id="custPhone" required placeholder="+91 98765 43210" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"></div>
+<div><label class="block font-semibold text-slate-700 mb-1">Delivery Address *</label><textarea id="custAddress" required rows="2" placeholder="Door No, Street Name, Pincode" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none"></textarea></div>
+<div><label class="block font-semibold text-slate-700 mb-1">Payment Mode</label>
+<select id="custPayment" class="w-full p-2 border rounded-lg focus:ring-1 focus:ring-amber-500 focus:outline-none">
+<option value="UPI / QR Code">UPI (GPay / PhonePe / Paytm)</option>
+<option value="Cash on Delivery">Cash on Delivery (COD)</option>
+<option value="Card Payment">Debit / Credit Card</option>
+</select></div>
+<button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow transition text-xs mt-2">Place Order (<span id="checkoutAmountLabel">₹0</span>)</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div id="orderSuccessModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-sm w-full p-5 text-center shadow-2xl">
+<div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl"><i class="fa-solid fa-circle-check"></i></div>
+<h3 class="text-base font-extrabold text-slate-900 mb-1">Order Received!</h3>
+<p class="text-xs text-slate-500 mb-3">Thank you for shopping at R S SHOPPING CENTRE.</p>
+<div class="bg-slate-50 rounded-xl p-3 text-left text-xs space-y-1 mb-4 border border-slate-200">
+<div class="flex justify-between"><span class="text-slate-500">Order ID:</span><span id="succId" class="font-bold">#RS-1029</span></div>
+<div class="flex justify-between"><span class="text-slate-500">Customer:</span><span id="succName" class="font-medium"></span></div>
+<div class="flex justify-between"><span class="text-slate-500">Amount:</span><span id="succTotal" class="font-bold text-amber-600"></span></div>
+</div>
+<button onclick="closeSuccessModal()" class="w-full bg-slate-900 text-white font-bold py-2 rounded-xl text-xs">Continue Shopping</button>
+</div>
+</div>
+
+<!-- WISHLIST MODAL -->
+<div id="wishlistModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl relative">
+<div class="flex items-center justify-between border-b pb-2 mb-3">
+<h3 class="font-bold text-sm text-slate-900"><i class="fa-solid fa-heart text-red-500 mr-1.5"></i> Your Wishlist</h3>
+<button onclick="toggleWishlistModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div id="wishlistItemsList" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar text-xs"></div>
+</div>
+</div>
+
+<script>
+// ==================== PRODUCT IMAGE MATCHER HELPER ====================
+// Matches product image and fallback according to product name and keywords
+function getMatchingProductImage(title, category = '') {
+    const t = (title + ' ' + category).toLowerCase();
+    if (t.includes('measuring tape') || t.includes('tape measure')) {
+        return { image: 'https://images.unsplash.com/photo-1589365278144-c9e705f843ba?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('scissors') || t.includes('shears')) {
+        return { image: 'https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('scale') || t.includes('curve') || t.includes('stencil') || t.includes('ruler') || t.includes('french curve')) {
+        return { image: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('peacock feather')) {
+        return { image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('tracing wheel')) {
+        return { image: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('pins') || t.includes('pearl head')) {
+        return { image: 'https://images.unsplash.com/photo-1598808503746-f34c53b9323e?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('seam ripper') || t.includes('snip')) {
+        return { image: 'https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('chisel') || t.includes('punch')) {
+        return { image: 'https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('pendant') || t.includes('lamp') || t.includes('light shade') || t.includes('lantern')) {
+        return { image: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('stool')) {
+        return { image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('laundry')) {
+        return { image: 'https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('tray')) {
+        return { image: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('planter')) {
+        return { image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('tote') || t.includes('shopping basket')) {
+        return { image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('hamper box') || t.includes('gift hamper')) {
+        return { image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('basket') || t.includes('wicker') || t.includes('cane')) {
+        return { image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('zari') || t.includes('saree') || t.includes('mirror work')) {
+        return { image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('velvet') || t.includes('gota patti')) {
+        return { image: 'https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('pearl') || t.includes('bead')) {
+        return { image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('ribbon') || t.includes('satin')) {
+        return { image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('crochet')) {
+        return { image: 'https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('kundan') || t.includes('rhinestone') || t.includes('gem')) {
+        return { image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('ruffle')) {
+        return { image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('lace') || t.includes('trim')) {
+        return { image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('star banner') || t.includes('glitter star')) {
+        return { image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('sequin')) {
+        return { image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('bunting')) {
+        return { image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('party hat')) {
+        return { image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('balloon')) {
+        return { image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('curtain') || t.includes('backdrop') || t.includes('foil')) {
+        return { image: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('fairy lights') || t.includes('led')) {
+        return { image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('glue gun')) {
+        return { image: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=600&q=80' };
+    }
+    if (t.includes('pom pom') || t.includes('pompom')) {
+        return { image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80', fallback: 'https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80' };
+    }
+    return {
+        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
+        fallback: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80'
+    };
+}
+
+// ==================== 40 PRODUCTS WITH ACCURATE MATCHING IMAGES ====================
+const products = [
+    {
+        "id": 1,
+        "title": "Handwoven Dual-Tone Storage Chest / Wicker Hamper Box",
+        "category": "Cane & Bamboo",
+        "price": 850,
+        "rating": 4.9,
+        "icon": "fa-basket-shopping",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+        "description": "Sturdy dual-tone cane hamper box with lid for storage & gift packaging."
+    },
+    {
+        "id": 2,
+        "title": "Bamboo Bell Pendant Light Shade",
+        "category": "Cane & Bamboo",
+        "price": 650,
+        "rating": 4.8,
+        "icon": "fa-lightbulb",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1517991104123-1d56a6e81ed9?auto=format&fit=crop&w=600&q=80",
+        "description": "Traditional bell-shaped woven bamboo hanging lamp shade for cozy lighting."
+    },
+    {
+        "id": 3,
+        "title": "Handcrafted Teardrop Rattan Hanging Lamp",
+        "category": "Cane & Bamboo",
+        "price": 720,
+        "rating": 4.7,
+        "icon": "fa-sun",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=600&q=80",
+        "description": "Elegant teardrop rattan lantern for modern ethnic interior decor."
+    },
+    {
+        "id": 4,
+        "title": "Woven Cane Shopping Basket / Tote",
+        "category": "Cane & Bamboo",
+        "price": 380,
+        "rating": 4.6,
+        "icon": "fa-bag-shopping",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80",
+        "description": "Eco-friendly natural cane handbag basket with double handle."
+    },
+    {
+        "id": 5,
+        "title": "Traditional Bamboo Cylinder Stool",
+        "category": "Cane & Bamboo",
+        "price": 450,
+        "rating": 4.7,
+        "icon": "fa-chair",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=600&q=80",
+        "description": "Durable lightweight sitting stool woven from seasoned bamboo."
+    },
+    {
+        "id": 6,
+        "title": "Mini Decorative Cane Basket Set",
+        "category": "Cane & Bamboo",
+        "price": 290,
+        "rating": 4.5,
+        "icon": "fa-boxes-packing",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+        "description": "Set of 3 small cane baskets for desk storage & return gift packing."
+    },
+    {
+        "id": 7,
+        "title": "Large Cane Laundry Basket with Handles",
+        "category": "Cane & Bamboo",
+        "price": 920,
+        "rating": 4.7,
+        "icon": "fa-basket-shopping",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+        "description": "Spacious handwoven cane laundry basket with sturdy side handles."
+    },
+    {
+        "id": 8,
+        "title": "Woven Cane Serving Tray Set (3 Pcs)",
+        "category": "Cane & Bamboo",
+        "price": 540,
+        "rating": 4.6,
+        "icon": "fa-tray",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+        "description": "Set of 3 round woven cane trays for serving & decorative display."
+    },
+    {
+        "id": 9,
+        "title": "Bamboo Wall Hanging Planter Basket",
+        "category": "Cane & Bamboo",
+        "price": 320,
+        "rating": 4.5,
+        "icon": "fa-seedling",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+        "description": "Half-round bamboo planter basket for hanging indoor plants on walls."
+    },
+    {
+        "id": 10,
+        "title": "Premium Cane Gift Hamper Box with Lid",
+        "category": "Cane & Bamboo",
+        "price": 780,
+        "rating": 4.9,
+        "icon": "fa-gift",
+        "color": "bg-amber-100 text-amber-800",
+        "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80",
+        "description": "Elegant woven cane hamper with lid \u2014 perfect for wedding return gifts."
+    },
+    {
+        "id": 11,
+        "title": "Heavy Zari & Mirror Work Designer Lace (9 Meters)",
+        "category": "Laces & Trims",
+        "price": 480,
+        "rating": 4.9,
+        "icon": "fa-ribbon",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80",
+        "description": "9-meter roll of rich metallic zari embroidery border with sparkling mirrors."
+    },
+    {
+        "id": 12,
+        "title": "Royal Gota Patti Velvet Border Lace",
+        "category": "Laces & Trims",
+        "price": 350,
+        "rating": 4.8,
+        "icon": "fa-scroll",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+        "description": "Velvet border trim with traditional golden gota patti work for sarees & blouses."
+    },
+    {
+        "id": 13,
+        "title": "Pearl & Bead Embroidered Trim Roll",
+        "category": "Laces & Trims",
+        "price": 390,
+        "rating": 4.7,
+        "icon": "fa-gem",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80",
+        "description": "Intertwined faux pearl and seed bead trim for designer clothing edging."
+    },
+    {
+        "id": 14,
+        "title": "Satin Ribbon Assorted Rolls Set (10 Pcs)",
+        "category": "Laces & Trims",
+        "price": 220,
+        "rating": 4.6,
+        "icon": "fa-tape",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1520006403909-838d6b92c22e?auto=format&fit=crop&w=600&q=80",
+        "description": "Pack of 10 vibrant satin ribbon rolls for crafts and gift wraps."
+    },
+    {
+        "id": 15,
+        "title": "Gold Zari Border Lace for Sarees",
+        "category": "Laces & Trims",
+        "price": 420,
+        "rating": 4.8,
+        "icon": "fa-ribbon",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+        "description": "Traditional golden zari woven border lace for sarees, lehengas & blouses."
+    },
+    {
+        "id": 16,
+        "title": "Sequin Embroidered Net Lace",
+        "category": "Laces & Trims",
+        "price": 310,
+        "rating": 4.7,
+        "icon": "fa-wand-magic-sparkles",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80",
+        "description": "Delicate net lace with sparkling metallic micro sequins embroidery."
+    },
+    {
+        "id": 17,
+        "title": "Crochet Cotton Lace Trim Roll",
+        "category": "Laces & Trims",
+        "price": 180,
+        "rating": 4.5,
+        "icon": "fa-circle-dot",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80",
+        "description": "Delicate cotton crochet trim for dresses, curtains & craft projects."
+    },
+    {
+        "id": 18,
+        "title": "Kundan Stone Border Lace (3 Meters)",
+        "category": "Laces & Trims",
+        "price": 640,
+        "rating": 4.9,
+        "icon": "fa-gem",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80",
+        "description": "Ornate kundan stone embellished border lace for bridal wear."
+    },
+    {
+        "id": 19,
+        "title": "Net Ruffle Lace Roll (5 Meters)",
+        "category": "Laces & Trims",
+        "price": 290,
+        "rating": 4.6,
+        "icon": "fa-ribbon",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=600&q=80",
+        "description": "Soft net ruffle lace for gowns, frocks, and costume designing."
+    },
+    {
+        "id": 20,
+        "title": "Mirror Work Thread Lace (Assorted Colors)",
+        "category": "Laces & Trims",
+        "price": 410,
+        "rating": 4.7,
+        "icon": "fa-wand-magic-sparkles",
+        "color": "bg-red-100 text-red-800",
+        "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80",
+        "description": "Colorful thread embroidery with real mirror work on cotton base."
+    },
+    {
+        "id": 21,
+        "title": "Manan Neck Design Scale Set (Set of 10 Templates)",
+        "category": "Tailoring Tools",
+        "price": 180,
+        "rating": 4.9,
+        "icon": "fa-ruler-combined",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80",
+        "description": "Acrylic neck design drafting scales set by Manan for precise blouse cutting."
+    },
+    {
+        "id": 22,
+        "title": "Deepak Tailoring Neck Design Stencil Kit",
+        "category": "Tailoring Tools",
+        "price": 140,
+        "rating": 4.8,
+        "icon": "fa-bezier-curve",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80",
+        "description": "Tailor's essential neck design stencil set by Deepak for pattern making."
+    },
+    {
+        "id": 23,
+        "title": "Decorative Peacock Feathers (Pack of 5)",
+        "category": "Tailoring Tools",
+        "price": 120,
+        "rating": 4.9,
+        "icon": "fa-feather-pointed",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=600&q=80",
+        "description": "Authentic iridescent peacock feathers for craft, pooja & costume decor."
+    },
+    {
+        "id": 24,
+        "title": "French Curve Ruler Set (3 Pcs)",
+        "category": "Tailoring Tools",
+        "price": 210,
+        "rating": 4.7,
+        "icon": "fa-ruler",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80",
+        "description": "Transparent acrylic French curve set for pattern drafting & alterations."
+    },
+    {
+        "id": 25,
+        "title": "Tailor's Measuring Tape (60 inch, Double-Sided)",
+        "category": "Tailoring Tools",
+        "price": 60,
+        "rating": 4.6,
+        "icon": "fa-ruler-horizontal",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1589365278144-c9e705f843ba?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80",
+        "description": "Flexible fiberglass measuring tape with both inches & cm markings."
+    },
+    {
+        "id": 26,
+        "title": "Professional Sewing Scissors Set (3 Sizes)",
+        "category": "Tailoring Tools",
+        "price": 560,
+        "rating": 4.8,
+        "icon": "fa-scissors",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?auto=format&fit=crop&w=600&q=80",
+        "description": "Stainless steel dressmaking scissors with ergonomic handles."
+    },
+    {
+        "id": 27,
+        "title": "Tracing Wheel & Carbon Paper Kit",
+        "category": "Tailoring Tools",
+        "price": 190,
+        "rating": 4.7,
+        "icon": "fa-compass-drafting",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80",
+        "description": "Metal tracing wheel with assorted carbon papers for pattern transfer."
+    },
+    {
+        "id": 28,
+        "title": "Dressmaker's Pins Box (500 Pcs, Pearl Head)",
+        "category": "Tailoring Tools",
+        "price": 150,
+        "rating": 4.5,
+        "icon": "fa-map-pin",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1598808503746-f34c53b9323e?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1528458876861-544fd1761a91?auto=format&fit=crop&w=600&q=80",
+        "description": "Colorful pearl-head straight pins in a reusable magnetic box."
+    },
+    {
+        "id": 29,
+        "title": "Seam Ripper & Thread Snip Set",
+        "category": "Tailoring Tools",
+        "price": 130,
+        "rating": 4.6,
+        "icon": "fa-scissors",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?auto=format&fit=crop&w=600&q=80",
+        "description": "Sharp seam ripper with thread snips \u2014 essential for unstitching work."
+    },
+    {
+        "id": 30,
+        "title": "Buttonhole Chisel & Punch Set",
+        "category": "Tailoring Tools",
+        "price": 340,
+        "rating": 4.7,
+        "icon": "fa-screwdriver",
+        "color": "bg-blue-100 text-blue-800",
+        "image": "https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=600&q=80",
+        "description": "Professional-grade chisel and punch set for clean buttonholes."
+    },
+    {
+        "id": 31,
+        "title": "'Happy Party' Glitter Star Banner Garland",
+        "category": "Party & Crafts",
+        "price": 90,
+        "rating": 4.7,
+        "icon": "fa-star",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80",
+        "description": "Hanging glitter star garland banner for birthday & celebration background decor."
+    },
+    {
+        "id": 32,
+        "title": "Self-Adhesive Rhinestone & Gem Stickers Sheet",
+        "category": "Party & Crafts",
+        "price": 75,
+        "rating": 4.6,
+        "icon": "fa-wand-magic-sparkles",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80",
+        "description": "Peel and stick multi-color crystal rhinestone sheet for craft embellishment."
+    },
+    {
+        "id": 33,
+        "title": "Metallic Craft Sequins & Paillettes Jar",
+        "category": "Party & Crafts",
+        "price": 110,
+        "rating": 4.5,
+        "icon": "fa-jar",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+        "description": "Assorted shiny sequins jar for embroidery, greeting cards & DIY art."
+    },
+    {
+        "id": 34,
+        "title": "DIY Sparkling Party Bunting Banner Set",
+        "category": "Party & Crafts",
+        "price": 130,
+        "rating": 4.8,
+        "icon": "fa-flag",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80",
+        "description": "Colorful metallic bunting flags set with ribbon thread for festive parties."
+    },
+    {
+        "id": 35,
+        "title": "Paper Party Hats Pack (10 Pcs, Assorted)",
+        "category": "Party & Crafts",
+        "price": 120,
+        "rating": 4.5,
+        "icon": "fa-hat-cowboy",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80",
+        "description": "Fun printed party hats for birthdays & kids celebrations \u2014 pack of 10."
+    },
+    {
+        "id": 36,
+        "title": "Balloon Arch Decoration Kit (100 Pcs)",
+        "category": "Party & Crafts",
+        "price": 340,
+        "rating": 4.8,
+        "icon": "fa-circle",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=600&q=80",
+        "description": "Complete balloon arch kit with tape, pump & assorted colored balloons."
+    },
+    {
+        "id": 37,
+        "title": "Foil Curtain Backdrop (Metallic, 2 Pack)",
+        "category": "Party & Crafts",
+        "price": 180,
+        "rating": 4.6,
+        "icon": "fa-flag-checkered",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+        "description": "Shimmering foil fringe curtains for photo-booth & party backdrop."
+    },
+    {
+        "id": 38,
+        "title": "LED Fairy String Lights (5 Meters, Warm White)",
+        "category": "Party & Crafts",
+        "price": 220,
+        "rating": 4.9,
+        "icon": "fa-lightbulb",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1514517521153-1be72277b32f?auto=format&fit=crop&w=600&q=80",
+        "description": "Battery-operated fairy lights for decoration, crafts, and party ambiance."
+    },
+    {
+        "id": 39,
+        "title": "Craft Glue Gun with 10 Glue Sticks",
+        "category": "Party & Crafts",
+        "price": 290,
+        "rating": 4.7,
+        "icon": "fa-fire-flame-curved",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=600&q=80",
+        "description": "Mini hot glue gun with 10 sticks \u2014 perfect for DIY & craft projects."
+    },
+    {
+        "id": 40,
+        "title": "Colorful Pom Pom Balls (Pack of 100)",
+        "category": "Party & Crafts",
+        "price": 160,
+        "rating": 4.6,
+        "icon": "fa-circle-nodes",
+        "color": "bg-purple-100 text-purple-800",
+        "image": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=600&q=80",
+        "fallback": "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=600&q=80",
+        "description": "Soft fluffy pom poms in assorted colors for crafts and decoration."
+    }
+];
+
+
+let activeCategory = 'All', searchQuery = '', maxPrice = 1000, sortBy = 'featured';
+let cart = [], wishlist = [];
+
+// ==================== AUTH ====================
+function openAuthModal(mode) {
+    document.getElementById('authModal').classList.remove('hidden');
+    if (mode === 'signup') {
+        document.getElementById('loginForm').classList.add('hidden');
+        document.getElementById('signupForm').classList.remove('hidden');
+        document.getElementById('authTitle').textContent = 'Create Your Account';
+        document.getElementById('authSubtitle').textContent = 'Join us to unlock our full catalog';
+        document.getElementById('toggleText').textContent = 'Already have an account?';
+        document.getElementById('toggleBtn').textContent = 'Login';
+    } else {
+        document.getElementById('signupForm').classList.add('hidden');
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('authTitle').textContent = 'Welcome Back!';
+        document.getElementById('authSubtitle').textContent = 'Login to access our full catalog & place orders';
+        document.getElementById('toggleText').textContent = "Don't have an account?";
+        document.getElementById('toggleBtn').textContent = 'Sign Up';
+    }
+}
+function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+function toggleAuthMode() { openAuthModal(!document.getElementById('loginForm').classList.contains('hidden') ? 'signup' : 'login'); }
+function fillDemo() { document.getElementById('loginEmail').value = 'demo@rsshopping.com'; document.getElementById('loginPassword').value = 'demo123'; }
+function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const password = document.getElementById('loginPassword').value;
+    const users = JSON.parse(localStorage.getItem('rs_users') || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
+    if (user) {
+        localStorage.setItem('rs_current_user', JSON.stringify(user));
+        closeAuthModal();
+        document.getElementById('orderForm').reset();
+        checkAuthState();
+        showToast(`Welcome back, ${user.name}!`);
+    } else { alert('Invalid email or password.\n\nHint: Click "use demo account" or sign up first.'); }
+}
+function handleSignup(e) {
+    e.preventDefault();
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+    const password = document.getElementById('signupPassword').value;
+    if (password.length < 6) { alert('Password must be at least 6 characters.'); return; }
+    const users = JSON.parse(localStorage.getItem('rs_users') || '[]');
+    if (users.find(u => u.email === email)) { alert('This email is already registered. Please login instead.'); return; }
+    const newUser = { name, email, password };
+    users.push(newUser);
+    localStorage.setItem('rs_users', JSON.stringify(users));
+    localStorage.setItem('rs_current_user', JSON.stringify(newUser));
+    closeAuthModal();
+    checkAuthState();
+    showToast(`Welcome, ${name}! Account created.`);
+}
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('rs_current_user');
+        cart = []; wishlist = [];
+        updateCartUI(); updateWishlistUI(); renderProducts();
+        checkAuthState();
+        showToast('Logged out successfully');
+    }
+}
+function checkAuthState() {
+    const user = JSON.parse(localStorage.getItem('rs_current_user') || 'null');
+    const overviewPage = document.getElementById('overviewPage');
+    const shopPage = document.getElementById('shopPage');
+    if (user) {
+        overviewPage.classList.add('hidden');
+        shopPage.classList.remove('hidden');
+        document.getElementById('userNameDisplay').textContent = user.name.split(' ')[0];
+        document.getElementById('userMenuName').textContent = user.name;
+        document.getElementById('userMenuEmail').textContent = user.email;
+        document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+        setTimeout(() => { const c = document.getElementById('custName'); if (c && !c.value) c.value = user.name; }, 100);
+    } else {
+        overviewPage.classList.remove('hidden');
+        shopPage.classList.add('hidden');
+    }
+}
+function toggleUserMenu() { document.getElementById('userMenu').classList.toggle('hidden'); }
+document.addEventListener('click', (e) => {
+    const menu = document.getElementById('userMenu');
+    const btn = e.target.closest('button[onclick="toggleUserMenu()"]');
+    if (!btn && menu && !menu.classList.contains('hidden') && !menu.contains(e.target)) menu.classList.add('hidden');
+});
+
+// ==================== RENDER ====================
+function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    if (!grid) return;
+    const emptyMsg = document.getElementById('emptyGridMsg');
+    const countBadge = document.getElementById('productCountBadge');
+
+    let filtered = products.filter(p => {
+        const matchCat = (activeCategory === 'All') || (p.category === activeCategory);
+        const matchSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.description.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchPrice = p.price <= maxPrice;
+        return matchCat && matchSearch && matchPrice;
+    });
+    if (sortBy === 'price-low') filtered.sort((a, b) => a.price - b.price);
+    else if (sortBy === 'price-high') filtered.sort((a, b) => b.price - a.price);
+    else if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+    countBadge.innerText = `Showing ${filtered.length} items`;
+    if (filtered.length === 0) { grid.innerHTML = ''; emptyMsg.classList.remove('hidden'); return; }
+    else emptyMsg.classList.add('hidden');
+
+    grid.innerHTML = filtered.map(p => {
+        const inWish = wishlist.includes(p.id);
+        const inCart = cart.find(c => c.id === p.id);
+        return `
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between group animate-fade">
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${p.color}">${p.category}</span>
+                        <button onclick="toggleWishlist(${p.id})" class="text-slate-400 hover:text-red-500 transition">
+                            <i class="${inWish ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart text-sm"></i>
+                        </button>
+                    </div>
+                    <div class="w-full h-36 rounded-xl mb-3 overflow-hidden product-img-wrap">
+                        <div class="fallback-icon"><i class="fa-solid ${p.icon} text-4xl"></i></div>
+                        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 relative z-10" loading="lazy"
+                             onerror="this.onerror=null; this.src='${p.fallback}';">
+                    </div>
+                    <div class="flex items-center space-x-1 text-amber-500 text-[11px] mb-1">
+                        <i class="fa-solid fa-star"></i><span class="font-bold text-slate-800">${p.rating}</span>
+                        <span class="text-slate-400 text-[10px]">(Verified)</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-xs leading-snug mb-1 line-clamp-2">${p.title}</h3>
+                    <p class="text-[11px] text-slate-500 line-clamp-2 mb-3">${p.description}</p>
+                </div>
+                <div class="px-4 pb-4 pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <div><span class="text-[10px] text-slate-400 block font-medium">Price</span><span class="text-base font-extrabold text-slate-900">₹${p.price}</span></div>
+                    <button onclick="addToCart(${p.id})" class="bg-amber-500 hover:bg-amber-600 active:scale-95 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-xl shadow-sm transition flex items-center space-x-1">
+                        <i class="fa-solid fa-plus text-[10px]"></i><span>${inCart ? `Add (${inCart.qty})` : 'Add to Cart'}</span>
+                    </button>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+// ==================== CART ====================
+function addToCart(id) {
+    const prod = products.find(p => p.id === id);
+    const exist = cart.find(c => c.id === id);
+    if (exist) exist.qty += 1; else cart.push({ ...prod, qty: 1 });
+    updateCartUI(); renderProducts();
+    showToast(`Added "${prod.title.substring(0, 18)}..."`);
+}
+function updateCartQty(id, delta) {
+    const idx = cart.findIndex(c => c.id === id);
+    if (idx !== -1) { cart[idx].qty += delta; if (cart[idx].qty <= 0) cart.splice(idx, 1); }
+    updateCartUI(); renderProducts();
+}
+function removeFromCart(id) { cart = cart.filter(c => c.id !== id); updateCartUI(); renderProducts(); }
+
+function updateCartUI() {
+    const cartBadge = document.getElementById('cartBadge');
+    const cartHeaderTotal = document.getElementById('cartHeaderTotal');
+    const cartItemsList = document.getElementById('cartItemsList');
+    const cartSubtotal = document.getElementById('cartSubtotal');
+    const cartTotal = document.getElementById('cartTotal');
+    const checkoutAmountLabel = document.getElementById('checkoutAmountLabel');
+
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+
+    cartBadge.innerText = count;
+    cartHeaderTotal.innerText = `₹${total}`;
+    cartSubtotal.innerText = `₹${total}`;
+    cartTotal.innerText = `₹${total}`;
+    checkoutAmountLabel.innerText = `₹${total}`;
+
+    if (cart.length === 0) {
+        cartItemsList.innerHTML = `<div class="text-center py-10 text-slate-400"><i class="fa-solid fa-basket-shopping text-3xl mb-2 text-slate-300"></i><p class="text-xs font-semibold">Basket is currently empty</p></div>`;
+        document.getElementById('checkoutBtn').disabled = true;
+        document.getElementById('checkoutBtn').classList.add('opacity-50', 'cursor-not-allowed');
+    } else {
+        document.getElementById('checkoutBtn').disabled = false;
+        document.getElementById('checkoutBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+        cartItemsList.innerHTML = cart.map(item => `
+            <div class="flex items-center space-x-3 bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs">
+                <div class="w-12 h-12 rounded-lg overflow-hidden product-img-wrap shrink-0">
+                    <div class="fallback-icon"><i class="fa-solid ${item.icon} text-lg"></i></div>
+                    <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover relative z-10" onerror="this.onerror=null; this.src='${item.fallback}';">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h4 class="font-bold text-slate-800 truncate">${item.title}</h4>
+                    <span class="text-amber-600 font-extrabold">₹${item.price}</span>
+                    <div class="flex items-center space-x-2 mt-1">
+                        <button onclick="updateCartQty(${item.id}, -1)" class="w-5 h-5 rounded bg-slate-200 font-bold flex items-center justify-center">-</button>
+                        <span class="font-bold">${item.qty}</span>
+                        <button onclick="updateCartQty(${item.id}, 1)" class="w-5 h-5 rounded bg-slate-200 font-bold flex items-center justify-center">+</button>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="font-black text-slate-900 block">₹${item.price * item.qty}</span>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700 text-xs mt-1"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+            </div>`).join('');
+    }
+}
+
+// ==================== WISHLIST ====================
+function toggleWishlist(id) {
+    if (wishlist.includes(id)) { wishlist = wishlist.filter(w => w !== id); showToast("Removed from wishlist"); }
+    else { wishlist.push(id); showToast("Saved to wishlist"); }
+    document.getElementById('wishlistBadge').innerText = wishlist.length;
+    renderProducts(); updateWishlistUI();
+}
+function updateWishlistUI() {
+    const list = document.getElementById('wishlistItemsList');
+    if (wishlist.length === 0) { list.innerHTML = `<p class="text-center text-slate-400 py-6">No saved wishlist items</p>`; return; }
+    const savedItems = products.filter(p => wishlist.includes(p.id));
+    list.innerHTML = savedItems.map(p => `
+        <div class="flex items-center justify-between bg-slate-50 p-2 rounded-lg border gap-2">
+            <div class="flex items-center space-x-2 min-w-0">
+                <div class="w-8 h-8 rounded overflow-hidden product-img-wrap shrink-0">
+                    <div class="fallback-icon"><i class="fa-solid ${p.icon} text-xs"></i></div>
+                    <img src="${p.image}" class="w-full h-full object-cover relative z-10" onerror="this.onerror=null; this.src='${p.fallback}';">
+                </div>
+                <span class="font-semibold text-slate-800 truncate max-w-[140px]">${p.title}</span>
+            </div>
+            <div class="flex items-center space-x-2 shrink-0">
+                <span class="font-bold text-amber-600">₹${p.price}</span>
+                <button onclick="addToCart(${p.id})" class="bg-amber-500 text-slate-950 font-bold px-2 py-1 rounded">Add</button>
+            </div>
+        </div>`).join('');
+}
+
+// ==================== FILTERS ====================
+function filterCategory(cat) {
+    activeCategory = cat;
+    document.querySelectorAll('.cat-nav-btn').forEach(btn => {
+        btn.className = btn.getAttribute('data-cat') === cat
+            ? "cat-nav-btn px-3 py-1.5 rounded-lg bg-amber-600 text-white font-bold"
+            : "cat-nav-btn px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300";
+    });
+    renderProducts();
+}
+function handleSearch() {
+    const val = document.getElementById('searchInput').value;
+    searchQuery = val;
+    document.getElementById('clearSearchBtn').classList.toggle('hidden', val.length === 0);
+    renderProducts();
+}
+function handleMobileSearch() { searchQuery = document.getElementById('mobileSearchInput').value; renderProducts(); }
+function clearSearch() { document.getElementById('searchInput').value = ''; searchQuery = ''; document.getElementById('clearSearchBtn').classList.add('hidden'); renderProducts(); }
+function updatePriceFilter(val) { maxPrice = parseInt(val); document.getElementById('priceLabel').innerText = `₹${val}`; renderProducts(); }
+function applySortAndFilter() { sortBy = document.getElementById('sortBy').value; renderProducts(); }
+function resetAllFilters() {
+    activeCategory = 'All'; searchQuery = ''; maxPrice = 1000; sortBy = 'featured';
+    const pr = document.getElementById('priceRange'); if (pr) pr.value = 1000;
+    document.getElementById('priceLabel').innerText = '₹1000';
+    const si = document.getElementById('searchInput'); if (si) si.value = '';
+    const msi = document.getElementById('mobileSearchInput'); if (msi) msi.value = '';
+    filterCategory('All');
+}
+
+// ==================== MODALS ====================
+function toggleCartModal() { document.getElementById('cartModal').classList.toggle('hidden'); closeCheckoutForm(); }
+function toggleWishlistModal() { document.getElementById('wishlistModal').classList.toggle('hidden'); }
+function openCheckoutForm() {
+    if (cart.length === 0) return;
+    document.getElementById('cartItemsList').classList.add('hidden');
+    document.getElementById('cartFooter').classList.add('hidden');
+    document.getElementById('checkoutFormSection').classList.remove('hidden');
+}
+function closeCheckoutForm() {
+    document.getElementById('cartItemsList').classList.remove('hidden');
+    document.getElementById('cartFooter').classList.remove('hidden');
+    document.getElementById('checkoutFormSection').classList.add('hidden');
+}
+function processOrder(e) {
+    e.preventDefault();
+    const name = document.getElementById('custName').value;
+    const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+    document.getElementById('succId').innerText = '#RS-' + Math.floor(1000 + Math.random() * 9000);
+    document.getElementById('succName').innerText = name;
+    document.getElementById('succTotal').innerText = `₹${total}`;
+    cart = []; updateCartUI(); renderProducts();
+    toggleCartModal();
+    document.getElementById('orderSuccessModal').classList.remove('hidden');
+}
+function closeSuccessModal() {
+    document.getElementById('orderSuccessModal').classList.add('hidden');
+    document.getElementById('orderForm').reset();
+    const user = JSON.parse(localStorage.getItem('rs_current_user') || 'null');
+    if (user) document.getElementById('custName').value = user.name;
+}
+function showToast(msg) {
+    const toast = document.createElement('div');
+    toast.className = 'fixed bottom-4 right-4 bg-slate-900 text-white font-medium text-xs px-3.5 py-2.5 rounded-xl shadow-xl z-[200] flex items-center space-x-2 border border-slate-700 animate-fade';
+    toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${msg}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 2200);
+}
+
+// ==================== INIT ====================
+window.addEventListener('DOMContentLoaded', () => {
+    const users = JSON.parse(localStorage.getItem('rs_users') || '[]');
+    if (!users.find(u => u.email === 'demo@rsshopping.com')) {
+        users.push({ name: 'Demo User', email: 'demo@rsshopping.com', password: 'demo123' });
+        localStorage.setItem('rs_users', JSON.stringify(users));
+    }
+    checkAuthState(); renderProducts(); updateCartUI(); updateWishlistUI();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        ['authModal','cartModal','wishlistModal','orderSuccessModal'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    }
+});
+</script>
+</body>
+</html>
